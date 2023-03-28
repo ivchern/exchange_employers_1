@@ -1,8 +1,9 @@
 package com.ivchern.exchange_employers.Controllers;
 
-import com.ivchern.exchange_employers.Entity.Request;
 import com.ivchern.exchange_employers.Entity.Resources;
 import com.ivchern.exchange_employers.Repositories.ResourcesRepository;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,19 @@ public class ResourcesController {
         }else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+    //TODO: status nocontent or ok
+    @PutMapping(path="/{id}", consumes = "application/json")
+    public Resources putResource( @PathVariable("id") Long id, @RequestBody Resources resource) {
+        resource.setId(id);
+        return resourcesRepository.save(resource);
+    }
+
+    @DeleteMapping(path= "/{id}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteResource( @PathVariable("id") Long id) {
+        try {
+            resourcesRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) {}; //TODO: add exception
     }
 }
