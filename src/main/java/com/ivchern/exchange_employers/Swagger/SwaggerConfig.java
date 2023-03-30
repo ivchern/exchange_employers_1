@@ -1,39 +1,46 @@
 package com.ivchern.exchange_employers.Swagger;
 
-//import io.swagger.v3.oas.models.OpenAPI;
-//import io.swagger.v3.oas.models.info.Contact;
-//import io.swagger.v3.oas.models.info.Info;
-//import io.swagger.v3.oas.models.info.License;
-//import io.swagger.v3.oas.models.servers.Server;
-//import org.springdoc.core.GroupedOpenApi;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//
-//import java.util.List;
-//
+import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
+
+import java.util.List;
+
+//import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
+
 //@Configuration
 public class SwaggerConfig {
 //    @Bean
-//    public GroupedOpenApi publicUserApi() {
-//        return GroupedOpenApi.builder()
-//                .group("apishka")
-//                .pathsToMatch("/api/**")
-//                .build();
-//    }
+//    public OpenAPI myOpenAPI() {
 //
-//    @Bean
-//    public OpenAPI customOpenApi() {
-//        return new OpenAPI().info(new Info().title("Application API")
-////                        .version(appVersion)
-////                        .description(appDescription)
-//                        .license(new License().name("Apache 2.0")
-//                                .url("http://springdoc.org"))
-//                        .contact(new Contact().name("username")
-//                                .email("test@gmail.com")))
-//                .servers(List.of(new Server().url("http://localhost:8080")
-//                                .description("Dev service"),
-//                        new Server().url("http://localhost:8082")
-//                                .description("Beta service")));
+//
+//
+//        Server devServer = new Server();
+//        devServer.setUrl("1/swagger-ui/");
+//        devServer.setDescription("Server URL in Development environment");
+//
+//        Contact contact = new Contact();
+//        contact.setEmail("local");
+//        contact.setName("local");
+//        contact.setUrl("https://www.local.com");
+//
+//        License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
+//
+//        Info info = new Info()
+//                .title("Tutorial Management API")
+//                .version("1.0")
+//                .contact(contact)
+//                .description("This API exposes endpoints to manage tutorials.").termsOfService("https://www.local.com/terms")
+//                .license(mitLicense);
+//
+//        return new OpenAPI().info(info).servers(List.of(devServer, devServer));
 //    }
+
 }

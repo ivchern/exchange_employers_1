@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/resources", produces = "application/json")
+@CrossOrigin("*")
 public class ResourcesController {
     private final ResourcesRepository resourcesRepository;
 
