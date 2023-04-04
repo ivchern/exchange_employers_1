@@ -1,5 +1,6 @@
 package com.ivchern.exchange_employers.payload.request;
 
+import com.ivchern.exchange_employers.Model.ERole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class SignupRequest {
   @Email
   private String email;
 
-  private List<String> role;
+  private Set<String> role;
 
   @NotBlank
   @Size(min = 6, max = 40)
@@ -47,11 +48,11 @@ public class SignupRequest {
     this.password = password;
   }
 
-  public List<String> getRole() {
+  public Set<String> getRole() {
     return this.role;
   }
 
-  public void setRole(List<String> role) {
+  public void setRole(Set<String> role) {
     this.role = role;
   }
 }
