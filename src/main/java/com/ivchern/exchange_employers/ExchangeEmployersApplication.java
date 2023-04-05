@@ -1,15 +1,19 @@
 package com.ivchern.exchange_employers;
 
 
-import com.ivchern.exchange_employers.Model.Role;
-import com.ivchern.exchange_employers.Repositories.RoleRepository;
-import org.springframework.boot.CommandLineRunner;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 //TODO: add liquidbase
 @SpringBootApplication
+@SecurityScheme(
+		name = "JWT",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+)
 public class ExchangeEmployersApplication {
 
 	public static void main(String[] args) {

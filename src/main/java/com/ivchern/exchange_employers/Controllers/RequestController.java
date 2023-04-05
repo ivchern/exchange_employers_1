@@ -1,8 +1,7 @@
 package com.ivchern.exchange_employers.Controllers;
 
-import com.ivchern.exchange_employers.Entity.Request;
+import com.ivchern.exchange_employers.Model.Request;
 import com.ivchern.exchange_employers.Repositories.RequestRepository;
-import jdk.jshell.Snippet;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

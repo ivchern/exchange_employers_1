@@ -1,22 +1,21 @@
 package com.ivchern.exchange_employers.Controllers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ivchern.exchange_employers.Model.ERole;
-import com.ivchern.exchange_employers.Model.Role;
-import com.ivchern.exchange_employers.Model.User;
+import com.ivchern.exchange_employers.Model.User.ERole;
+import com.ivchern.exchange_employers.Model.User.Role;
+import com.ivchern.exchange_employers.Model.User.User;
 import com.ivchern.exchange_employers.Repositories.RoleRepository;
 import com.ivchern.exchange_employers.Repositories.UserRepository;
-import com.ivchern.exchange_employers.payload.request.LoginRequest;
-import com.ivchern.exchange_employers.payload.request.SignupRequest;
-import com.ivchern.exchange_employers.payload.response.JwtResponse;
-import com.ivchern.exchange_employers.payload.response.MessageResponse;
-import com.ivchern.exchange_employers.security.jwt.JwtUtils;
-import com.ivchern.exchange_employers.security.services.UserDetailsImpl;
+import com.ivchern.exchange_employers.DTO.Payload.Request.LoginRequest;
+import com.ivchern.exchange_employers.DTO.Payload.Request.SignupRequest;
+import com.ivchern.exchange_employers.DTO.Payload.Response.JwtResponse;
+import com.ivchern.exchange_employers.DTO.Payload.Response.MessageResponse;
+import com.ivchern.exchange_employers.Security.jwt.JwtUtils;
+import com.ivchern.exchange_employers.Security.Services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -122,7 +122,7 @@ public class AuthController {
     }
 
     user.setRoles(roles);
-
+    log.info(user.toString());
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
