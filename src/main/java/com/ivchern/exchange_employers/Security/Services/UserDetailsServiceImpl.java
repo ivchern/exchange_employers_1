@@ -2,7 +2,6 @@ package com.ivchern.exchange_employers.Security.Services;
 
 import com.ivchern.exchange_employers.Model.User.User;
 import com.ivchern.exchange_employers.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +12,12 @@ import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-  @Autowired
-  UserRepository userRepository;
+
+  private UserRepository userRepository;
+
+  public UserDetailsServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @Override
   @Transactional

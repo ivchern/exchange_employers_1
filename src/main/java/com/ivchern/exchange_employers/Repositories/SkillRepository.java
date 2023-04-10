@@ -14,5 +14,5 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     Optional<Skill> findByName(String skillName);
 
     @Query(value = "SELECT * FROM skill s WHERE s.skill_name in (:names)", nativeQuery = true)
-    Set<Skill> findByNames(@Param("names") Set<String> skillNames);
+    List<Skill> findByNames(@Param("names") Set<String> skillNames);
 }

@@ -1,6 +1,7 @@
 package com.ivchern.exchange_employers.Services.Teammate;
 
 import com.ivchern.exchange_employers.DTO.TeamDTO.TeammateDTO;
+import com.ivchern.exchange_employers.Model.Team.Skill;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 
 import java.util.List;
@@ -13,6 +14,5 @@ public interface TeammateService {
     Teammate save(TeammateDTO teammateDTO);
     Teammate update(Teammate teammate, Long id);
     void delete(Long id);
-
 
 }

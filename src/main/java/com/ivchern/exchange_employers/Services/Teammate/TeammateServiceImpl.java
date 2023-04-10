@@ -2,7 +2,6 @@ package com.ivchern.exchange_employers.Services.Teammate;
 
 import com.ivchern.exchange_employers.DTO.TeamDTO.TeammateDTO;
 import com.ivchern.exchange_employers.Model.Status;
-import com.ivchern.exchange_employers.Model.Team.Skill;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 import com.ivchern.exchange_employers.Repositories.SkillRepository;
 import com.ivchern.exchange_employers.Repositories.TeammateRepository;
@@ -11,10 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j

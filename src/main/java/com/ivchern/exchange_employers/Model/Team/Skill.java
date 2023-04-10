@@ -11,8 +11,10 @@ import lombok.Data;
 @Table(name = "skill")
 public class Skill {
     @Id
+    @Column(name = "id")
     private Long id;
     @Column(name = "skill_name")
     private String skill;
+    @Column(name = "description")
     private String description;
 }

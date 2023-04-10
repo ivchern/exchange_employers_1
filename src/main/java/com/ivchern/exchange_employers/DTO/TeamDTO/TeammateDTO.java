@@ -14,8 +14,10 @@ import java.util.Set;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class TeammateDTO {
+    private Long id;
     private String firstname;
     private String lastname;
+    private String jobTitle;
     private Long teamId;
     private Long OwnerId;
     private Set<String> skills;

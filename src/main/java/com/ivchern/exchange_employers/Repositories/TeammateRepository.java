@@ -14,4 +14,6 @@ public interface TeammateRepository extends CrudRepository<Teammate, Long> {
             "LEFT JOIN skill skill ON skill.id = teammate_skill.skill_id \n" +
             "WHERE skill.skill_name IN (:skills)" , nativeQuery = true)
     Iterable<Teammate> findByNameSkills(@Param("skills") List<String> namesSkills);
+
+    List<Skill> findSkillsById(Long id);
 }

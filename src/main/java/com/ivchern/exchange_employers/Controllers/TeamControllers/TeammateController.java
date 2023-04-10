@@ -1,7 +1,6 @@
 package com.ivchern.exchange_employers.Controllers.TeamControllers;
 
 import com.ivchern.exchange_employers.DTO.TeamDTO.TeammateDTO;
-import com.ivchern.exchange_employers.Model.Resources;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 import com.ivchern.exchange_employers.Services.Teammate.TeammateService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -57,7 +56,7 @@ public class TeammateController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
+    //TODO:add getByOwnerId
     @DeleteMapping(path = "id", consumes = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteTeammate(@RequestParam Long id){
