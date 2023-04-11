@@ -5,6 +5,7 @@ services:
     container_name: postgres_container
     image: postgres
     environment:
+      POSTGRES_DB: docker_atm
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       PGDATA: /data/postgres
@@ -31,6 +32,19 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
+  ExchangeEmployersBackend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: exchangeemployer-backend/latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://docker_atm:5432/employers_exchange
+    depends_on:
+      - postgres
+
 
 networks:
   postgres:

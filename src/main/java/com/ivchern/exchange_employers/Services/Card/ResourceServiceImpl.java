@@ -1,13 +1,13 @@
 package com.ivchern.exchange_employers.Services.Card;
 
-import com.ivchern.exchange_employers.DTO.CardDTO.ResourceOnRequestDTO;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnCreate;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnRequest;
 import com.ivchern.exchange_employers.Model.Card.Resource;
 import com.ivchern.exchange_employers.Model.Status;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 import com.ivchern.exchange_employers.Repositories.ResourceRepository;
 import com.ivchern.exchange_employers.Repositories.TeammateRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,31 +26,32 @@ public class ResourceServiceImpl implements ResourceService {
         this.resourceRepository = resourceRepository;
     }
     @Override
-    public ResourceOnRequestDTO save(Resource resource) {
-        resourceRepository.save(resource);
+    public ResourceDtoOnRequest save(ResourceDtoOnCreate resource) {
+        ModelMapper modelMapper = new ModelMapper();
 
-        ResourceOnRequestDTO resourceDTO = getResourceDTOEntity(resource);
-        resourceDTO.setCreated(LocalDateTime.now());
-        resourceDTO.setUpdated(LocalDateTime.now());
-        resourceDTO.setStatus(Status.ACTIVE);
+        Resource resourceSave = modelMapper.map(resource, Resource.class);
+        resourceSave.setStatus(Status.ACTIVE);
+        resourceSave.setCreated(LocalDateTime.now());
+        resourceSave.setUpdated(LocalDateTime.now());
 
-        return resourceDTO;
+        Resource resourceUpd = resourceRepository.save(resourceSave);
+        return getResourceDTOEntity(resourceUpd);
     }
 
     @Override
-    public ResourceOnRequestDTO update(ResourceOnRequestDTO resourceDTO, Long Id) {
+    public ResourceDtoOnRequest update(ResourceDtoOnRequest resourceDTO, Long Id) {
         resourceDTO.setUpdated(LocalDateTime.now());
 
         ModelMapper modelMapper = new ModelMapper();
         Resource resource = modelMapper.map(resourceDTO, Resource.class);
-        resourceRepository.save(resource);
-
-        return resourceDTO;
+        resource.setUpdated(LocalDateTime.now());
+        Resource resourceUpd = resourceRepository.save(resource);
+        return getResourceDTOEntity(resourceUpd);
     }
 
     @Override
-    public List<ResourceOnRequestDTO> findAll() {
-        List<ResourceOnRequestDTO> resourceDTO =  new ArrayList<>();
+    public List<ResourceDtoOnRequest> findAll() {
+        List<ResourceDtoOnRequest> resourceDTO =  new ArrayList<>();
 
         Iterable<Resource> resource = resourceRepository.findAll();
 
@@ -61,21 +62,30 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Optional<ResourceOnRequestDTO> findById(Long id) {
-        ResourceOnRequestDTO resourceDTO;
+    public Optional<ResourceDtoOnRequest> findById(Long id) {
+        ResourceDtoOnRequest resourceDTO;
         Optional<Resource> resourceOpt = resourceRepository.findById(id);
         if (resourceOpt.isPresent()){
             resourceDTO = getResourceDTOEntity(resourceOpt.get());
-            Optional<ResourceOnRequestDTO> res = Optional.of(resourceDTO);
+            Optional<ResourceDtoOnRequest> res = Optional.of(resourceDTO);
             return res;
         }else{
             return Optional.empty();
         }
     }
 
-    public ResourceOnRequestDTO getResourceDTOEntity(Resource resource) {
+    @Override
+    public void delete(Long id) {
+        Optional<Resource> resourceOpt = resourceRepository.findById(id);
+        if (resourceOpt.isPresent()){
+            Resource resource = resourceOpt.get();
+            resource.setStatus(Status.DELETED);
+        }
+    }
+
+    public ResourceDtoOnRequest getResourceDTOEntity(Resource resource) {
         ModelMapper modelMapper = new ModelMapper();
-        ResourceOnRequestDTO resourceDTO = modelMapper.map(resource, ResourceOnRequestDTO.class);
+        ResourceDtoOnRequest resourceDTO = modelMapper.map(resource, ResourceDtoOnRequest.class);
 
         Optional<Teammate> teammateOpt = teammateRepository.findById(resource.getTeammateId());
         if (teammateOpt.isPresent()) {

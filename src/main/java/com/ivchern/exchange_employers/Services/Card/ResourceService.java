@@ -1,15 +1,17 @@
 package com.ivchern.exchange_employers.Services.Card;
 
-import com.ivchern.exchange_employers.DTO.CardDTO.ResourceOnRequestDTO;
-import com.ivchern.exchange_employers.Model.Card.Resource;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnCreate;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ResourceService {
-    ResourceOnRequestDTO save(Resource resource);
-    ResourceOnRequestDTO update(ResourceOnRequestDTO resourceDTO, Long Id);
-    List<ResourceOnRequestDTO> findAll();
-    Optional<ResourceOnRequestDTO> findById(Long Id);
+    ResourceDtoOnRequest save(ResourceDtoOnCreate resource);
+    ResourceDtoOnRequest update(ResourceDtoOnRequest resourceDTO, Long Id);
+    List<ResourceDtoOnRequest> findAll();
+    Optional<ResourceDtoOnRequest> findById(Long Id);
+    void delete(Long id);
+
 
 }

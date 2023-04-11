@@ -1,12 +1,14 @@
 package com.ivchern.exchange_employers.Controllers.CardControllers;
 
-import com.ivchern.exchange_employers.DTO.CardDTO.ResourceOnRequestDTO;
-import com.ivchern.exchange_employers.Model.Card.Resource;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnCreate;
+import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnRequest;
 import com.ivchern.exchange_employers.Services.Card.ResourceService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/resources", produces = "application/json")
@@ -21,13 +23,34 @@ public class ResourcesController {
 
  //TODO: ADD recent page
     @GetMapping()
-    public List<ResourceOnRequestDTO> getResources(){
+    public List<ResourceDtoOnRequest> getResources(){
         return resourceService.findAll();
     }
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResourceOnRequestDTO setResources(@RequestBody Resource resource){
+    public ResourceDtoOnRequest setResources(@RequestBody ResourceDtoOnCreate resource){
         return resourceService.save(resource);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResourceDtoOnRequest> getResourceById(Long id){
+        Optional<ResourceDtoOnRequest> optResource = resourceService.findById(id);
+        if (optResource.isPresent()){
+            return new ResponseEntity<ResourceDtoOnRequest>(optResource.get(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(path="/{id}", consumes = "application/json")
+    public ResourceDtoOnRequest putResource(@PathVariable("id") Long id, @RequestBody ResourceDtoOnRequest resource) {
+        return resourceService.update(resource, id);
+    }
+
+    @DeleteMapping(path= "/{id}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteResource( @PathVariable("id") Long id) {
+         resourceService.delete(id);
     }
 //
 //    @GetMapping("/{id}")
