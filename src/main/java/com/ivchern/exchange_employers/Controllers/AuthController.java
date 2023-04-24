@@ -11,7 +11,6 @@ import com.ivchern.exchange_employers.Model.User.User;
 import com.ivchern.exchange_employers.Repositories.RoleRepository;
 import com.ivchern.exchange_employers.Repositories.UserRepository;
 import com.ivchern.exchange_employers.DTO.Payload.Request.LoginRequest;
-import com.ivchern.exchange_employers.DTO.Payload.Request.SignupRequest;
 import com.ivchern.exchange_employers.DTO.Payload.Response.JwtResponse;
 import com.ivchern.exchange_employers.DTO.Payload.Response.MessageResponse;
 import com.ivchern.exchange_employers.Security.jwt.JwtUtils;
@@ -73,7 +72,7 @@ public class AuthController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  public ResponseEntity<?> registerUser(@RequestBody User signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
@@ -91,7 +90,7 @@ public class AuthController {
                signUpRequest.getEmail(),
                encoder.encode(signUpRequest.getPassword()));
 
-    Set<String> strRoles = signUpRequest.getRole();
+    Set<String> strRoles = signUpRequest.getRoles().stream().map(role -> role.toString()).collect(Collectors.toSet());
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
