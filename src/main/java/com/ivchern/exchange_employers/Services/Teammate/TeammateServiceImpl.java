@@ -44,12 +44,18 @@ public class TeammateServiceImpl implements TeammateService{
     public Teammate save(TeammateDTO teammateDTO) {
         ModelMapper modelMapper = new ModelMapper();
 
-        Teammate teammate = modelMapper.map(teammateDTO, Teammate.class);
+        Teammate teammate = new Teammate(teammateDTO.getFirstname(), teammateDTO.getLastname(),
+                teammateDTO.getJobTitle(), teammateDTO.getRank(),teammateDTO.getTeamId(),  teammateDTO.getOwnerId(),
+                skillRepository.findByNames(teammateDTO.getSkills()));// modelMapper.map(teammateDTO, Teammate.class);
         teammate.setCreated(LocalDateTime.now());
         teammate.setUpdated(LocalDateTime.now());
         teammate.setStatus(Status.ACTIVE);
-        teammate.setSkills(skillRepository.findByNames(teammateDTO.getSkills()));
         return teammateRepository.save(teammate);
+    }
+
+    @Override
+    public Iterable<Teammate> findByOwnerId(Long id) {
+        return teammateRepository.findByOwnerId(id);
     }
 
     @Override

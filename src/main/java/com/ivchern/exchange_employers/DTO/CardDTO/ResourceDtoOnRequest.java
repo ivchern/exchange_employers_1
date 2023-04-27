@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,13 +22,13 @@ public class ResourceDtoOnRequest extends TeammateCardDTO {
     @Id
     private Long id;
     private String jobTitle;
-    private Rank rank;
+    private String rank;
 
     private String description;
     private String locationWorked;
     private Date fromFree;
     private Date endFree;
-    private List<Skill> skills;
+    private Set<String> skills;
     private LocalDateTime created;
     private LocalDateTime updated;
     private Status status;

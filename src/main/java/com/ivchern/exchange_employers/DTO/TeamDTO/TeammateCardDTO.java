@@ -11,5 +11,5 @@ import java.util.Set;
 public class TeammateCardDTO {
     private String jobTitle;
     private Rank rank;
-    private List<Skill> skills = new ArrayList<>();
+    private Set<Skill> skills = new HashSet<>();
 }

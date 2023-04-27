@@ -10,9 +10,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface SkillRepository extends JpaRepository<Skill, Long> {
-    @Query(value = "SELECT s FROM skill s WHERE s.skill_name ?", nativeQuery = true)
+    @Query(value = "SELECT s FROM skill s WHERE s.skill_name = ?1", nativeQuery = true)
     Optional<Skill> findByName(String skillName);
 
     @Query(value = "SELECT * FROM skill s WHERE s.skill_name in (:names)", nativeQuery = true)
-    List<Skill> findByNames(@Param("names") Set<String> skillNames);
+    Set<Skill> findByNames(@Param("names") Set<String> skillNames);
+
+    Set<String> findSkillsById(Long id);
 }
+
+

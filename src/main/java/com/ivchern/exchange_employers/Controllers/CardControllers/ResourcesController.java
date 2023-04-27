@@ -3,6 +3,8 @@ package com.ivchern.exchange_employers.Controllers.CardControllers;
 import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnCreate;
 import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnRequest;
 import com.ivchern.exchange_employers.Services.Card.ResourceService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/api/resources", produces = "application/json")
 @CrossOrigin("*")
+@SecurityRequirement(name = "JWT")
+@Tag(name = "Resources", description = "Ресурсы")
 public class ResourcesController {
     private final ResourceService resourceService;
 
@@ -32,8 +36,8 @@ public class ResourcesController {
         return resourceService.save(resource);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResourceDtoOnRequest> getResourceById(Long id){
+    @GetMapping(path= "/{id}")
+    public ResponseEntity<ResourceDtoOnRequest> getResourceById(@PathVariable("id") Long id){
         Optional<ResourceDtoOnRequest> optResource = resourceService.findById(id);
         if (optResource.isPresent()){
             return new ResponseEntity<ResourceDtoOnRequest>(optResource.get(), HttpStatus.OK);

@@ -3,6 +3,8 @@ package com.ivchern.exchange_employers.Controllers.CardControllers;
 import com.ivchern.exchange_employers.DTO.CardDTO.RequestWorkerDtoOnCreate;
 import com.ivchern.exchange_employers.Model.Card.RequestWorker;
 import com.ivchern.exchange_employers.Services.Card.RequestWorkerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/api/request", produces = "application/json")
 @CrossOrigin("*")
+@SecurityRequirement(name = "JWT")
+@Tag(name = "Request resources", description = "Запрос ресурсов")
 public class RequestWorkerController {
     private RequestWorkerService requestWorkerService;
 

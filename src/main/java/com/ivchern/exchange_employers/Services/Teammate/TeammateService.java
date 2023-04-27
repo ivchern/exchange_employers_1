@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface TeammateService {
     Optional<Teammate> findById(Long id);
     Iterable<Teammate> findBySkills(List<String> skills);
+    Iterable<Teammate> findByOwnerId(Long id);
     Iterable<Teammate> findAll();
     Teammate save(TeammateDTO teammateDTO);
     Teammate update(Teammate teammate, Long id);

@@ -1,6 +1,5 @@
 package com.ivchern.exchange_employers.Repositories;
 
-import com.ivchern.exchange_employers.Model.Team.Skill;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,5 +14,5 @@ public interface TeammateRepository extends CrudRepository<Teammate, Long> {
             "WHERE skill.skill_name IN (:skills)" , nativeQuery = true)
     Iterable<Teammate> findByNameSkills(@Param("skills") List<String> namesSkills);
 
-    List<Skill> findSkillsById(Long id);
+    Iterable<Teammate> findByOwnerId(Long id);
 }

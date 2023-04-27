@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -37,5 +38,5 @@ public class RequestWorker extends BaseEntity {
     @JoinTable(name = "request_skills",
             joinColumns = @JoinColumn(name = "request_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
-    private List<Skill> skills;
+    private Set<Skill> skills;
 }

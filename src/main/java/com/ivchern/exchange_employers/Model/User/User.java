@@ -28,6 +28,7 @@ public class User {
     private String firstname;
 
     @Size(max = 100)
+    @Column(name = "lastname")
     private String lastname;
 
     @NotBlank

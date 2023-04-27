@@ -4,27 +4,32 @@ import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnCreate;
 import com.ivchern.exchange_employers.DTO.CardDTO.ResourceDtoOnRequest;
 import com.ivchern.exchange_employers.Model.Card.Resource;
 import com.ivchern.exchange_employers.Model.Status;
+import com.ivchern.exchange_employers.Model.Team.Skill;
 import com.ivchern.exchange_employers.Model.Team.Teammate;
 import com.ivchern.exchange_employers.Repositories.ResourceRepository;
-import com.ivchern.exchange_employers.Repositories.TeammateRepository;
+import com.ivchern.exchange_employers.Services.Teammate.TeammateService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ResourceServiceImpl implements ResourceService {
 
-    private TeammateRepository teammateRepository;
+    private TeammateService teammateService;
     private ResourceRepository resourceRepository;
 
-    public ResourceServiceImpl(TeammateRepository teammateRepository, ResourceRepository resourceRepository) {
-        this.teammateRepository = teammateRepository;
+    public ResourceServiceImpl(TeammateService teammateService, ResourceRepository resourceRepository) {
+        this.teammateService = teammateService;
         this.resourceRepository = resourceRepository;
     }
+
+
     @Override
     public ResourceDtoOnRequest save(ResourceDtoOnCreate resource) {
         ModelMapper modelMapper = new ModelMapper();
@@ -86,12 +91,12 @@ public class ResourceServiceImpl implements ResourceService {
     public ResourceDtoOnRequest getResourceDTOEntity(Resource resource) {
         ModelMapper modelMapper = new ModelMapper();
         ResourceDtoOnRequest resourceDTO = modelMapper.map(resource, ResourceDtoOnRequest.class);
-
-        Optional<Teammate> teammateOpt = teammateRepository.findById(resource.getTeammateId());
+        Optional<Teammate> teammateOpt = teammateService.findById(resource.getTeammateId());
         if (teammateOpt.isPresent()) {
-            resourceDTO.setJobTitle(teammateOpt.get().getJobTitle());
-            resourceDTO.setRank(teammateOpt.get().getRank());
-            resourceDTO.setSkills(teammateOpt.get().getSkills());
+            Teammate teammate = teammateOpt.get();
+            resourceDTO.setJobTitle(teammate.getJobTitle());
+            resourceDTO.setRank(teammate.getRank());
+            resourceDTO.setSkills(teammate.getSkills().stream().map(Skill::getSkill).collect(Collectors.toSet()));
         }
         return resourceDTO;
     }

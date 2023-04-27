@@ -56,6 +56,11 @@ public class TeammateController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "GetByOwnerId", params = "id")
+    public Iterable<Teammate> getTeammateByOwnerId(@RequestParam Long id){
+        return teammateService.findByOwnerId(id);
+    }
     //TODO:add getByOwnerId
     @DeleteMapping(path = "id", consumes = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)

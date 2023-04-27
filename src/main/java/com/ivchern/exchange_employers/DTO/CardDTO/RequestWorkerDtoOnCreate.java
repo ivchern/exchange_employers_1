@@ -9,17 +9,18 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.NONE, force = true)
 public class RequestWorkerDtoOnCreate {
     private String jobTitle;
     private String projectName;
-    private Rank rank;
+    private String rank;
     private String description;
     private String locationWorked;
     private Date needBefore;
     private boolean isInterviewNeeded;
-    private List<Skill> skills;
+    private Set<String> skills;
 }

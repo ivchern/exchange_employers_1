@@ -1,6 +1,7 @@
 package com.ivchern.exchange_employers.Model.Card;
 
 import com.ivchern.exchange_employers.Model.BaseEntity;
+import com.ivchern.exchange_employers.Model.Team.Skill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity

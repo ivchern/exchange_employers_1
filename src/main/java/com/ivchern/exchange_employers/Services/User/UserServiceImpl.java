@@ -36,9 +36,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO update(UserDTO userDTO, Long id) {
         //TODO: add transsaction manager
-        ContactUserSave(userDTO.getContacts(), id);
-        TeamDTO teamDTO = new TeamDTO(userDTO.getName_team(), userDTO.getTeam_description());
-        SaveTeam(teamDTO, id);
+        contactUserSave(userDTO.getContacts(), id);
+        TeamDTO teamDTO = new TeamDTO(userDTO.getNameTeam(), userDTO.getTeamDescription());
+        saveTeam(teamDTO, id);
+        if(userDTO.getFirstname() != null) {
+            userRepository.saveFirstnameById(id, userDTO.getFirstname());
+        }
+        if(userDTO.getLastname() != null) {
+            userRepository.saveLastnameById(id, userDTO.getLastname());
+        }
         return userDTO;
     }
 
@@ -58,13 +64,47 @@ public class UserServiceImpl implements UserService {
 
         List<ContactDTO> userContacts = modelMapper.map(contact, new TypeToken<List<ContactDTO>>(){}.getType());
 
-        userDTOOpt = Optional.ofNullable(new UserDTO(user.getUsername(), user.getFirstname(), user.getEmail(),
+        userDTOOpt = Optional.ofNullable(new UserDTO(user.getId(), user.getUsername(), user.getFirstname(), user.getEmail(),
                     user.getLastname(), team.getName(), team.getDescription(), userContacts));
 
         return userDTOOpt;
     }
 
-    private void ContactUserSave(List<ContactDTO> contactDTO, Long id){
+    public Optional<UserDTO> findByUsername(String username){
+        Optional<UserDTO> userDTOOpt;
+
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if(!userOpt.isPresent()){
+            userDTOOpt = Optional.empty();
+            return userDTOOpt;
+        }
+        User user = userOpt.get();
+        Team team;
+        Optional<Team> teamOpt = teamRepository.findByOwnerId(user.getId());
+        if (teamOpt.isPresent()) {
+            team = teamOpt.get();
+        }else{
+            team = null;
+        }
+        List<Contact> contact = contactRepository.findAllByUserId(user.getId());
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<ContactDTO> userContacts = modelMapper.map(contact, new TypeToken<List<ContactDTO>>(){}.getType());
+
+        if(team != null){
+            userDTOOpt = Optional.ofNullable(new UserDTO(user.getId(), user.getUsername(), user.getFirstname(), user.getEmail(),
+                    user.getLastname(), team.getName(), team.getDescription(), userContacts));
+
+        }else{
+            userDTOOpt = Optional.ofNullable(new UserDTO(user.getId(), user.getUsername(), user.getFirstname(), user.getEmail(),
+                    user.getLastname(), null, null, null));
+
+        }
+
+        return userDTOOpt;
+    }
+
+    private void contactUserSave(List<ContactDTO> contactDTO, Long id){
         ModelMapper modelMapper = new ModelMapper();
         List<Contact> userContacts = modelMapper.map(contactDTO, new TypeToken<List<Contact>>(){}.getType());
 
@@ -73,12 +113,11 @@ public class UserServiceImpl implements UserService {
             contactRepository.findByUserIdAndTypeContact(id, contact.getTypeContact()).
                     ifPresent(contact1 -> contact.setId(contact1.getId()));
         });
-
         log.info(userContacts.toString());
         contactRepository.saveAll(userContacts);
     }
 
-    private void SaveTeam(TeamDTO teamDTO, Long id){
+    private void saveTeam(TeamDTO teamDTO, Long id){
         ModelMapper modelMapper = new ModelMapper();
         Team team = modelMapper.map(teamDTO, Team.class);
         team.setOwnerId(id);

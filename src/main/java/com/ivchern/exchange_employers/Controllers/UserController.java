@@ -1,6 +1,7 @@
 package com.ivchern.exchange_employers.Controllers;
 
 import com.ivchern.exchange_employers.DTO.UserDTO;
+import com.ivchern.exchange_employers.Model.User.User;
 import com.ivchern.exchange_employers.Services.User.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,12 +25,12 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public UserDTO postUserDTO(@PathVariable("id") Long id, @RequestBody UserDTO userDTO){
+    public UserDTO updateUser(@PathVariable("id") Long id, @RequestBody UserDTO userDTO){
         return userService.update(userDTO, id);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserDTO> getUserDTOById(@PathVariable("id") Long id){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
         Optional<UserDTO> optUser = userService.findById(id);
         if (optUser.isPresent()){
             return new ResponseEntity<UserDTO>(optUser.get(), HttpStatus.OK);
@@ -37,4 +38,15 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping(path = "/GetByUsername/{username}")
+    public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username){
+        Optional<UserDTO> optUser = userService.findByUsername(username);
+        if (optUser.isPresent()){
+            return new ResponseEntity<UserDTO>(optUser.get(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

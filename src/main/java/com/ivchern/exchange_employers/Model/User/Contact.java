@@ -19,7 +19,7 @@ public class Contact {
     private Long id;
     @Column(name = "user_id")
     private Long userId;
-    @Column(name = "type_contact", unique=true)
+    @Column(name = "type_contact")
     private String typeContact;
     @Column(name = "contact")
     private String contact;
