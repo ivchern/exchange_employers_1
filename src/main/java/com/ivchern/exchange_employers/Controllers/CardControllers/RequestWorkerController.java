@@ -25,6 +25,15 @@ public class RequestWorkerController {
     public Iterable<RequestWorker> getRequests() {
         return requestWorkerService.findAll();
     }
+    
+    @GetMapping(path= "/{id}")
+    public ResponseEntity<RequestWorker> geRequestById(@PathVariable("id") Long id){
+        Optional<RequestWorker> optRequest = requestWorkerService.findById(id);
+        if (optRequest.isPresent()){
+            return new ResponseEntity<RequestWorker>(optRequest.get(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
